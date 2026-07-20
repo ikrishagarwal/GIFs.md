@@ -1,20 +1,34 @@
-import { App, PluginSettingTab, Setting } from 'obsidian';
-import MyPlugin from './main';
+import { App, PluginSettingTab, Setting, SettingDefinitionItem } from 'obsidian';
+import { nanoid } from 'nanoid';
+import GIFsPlugin from './main';
 
-export interface MyPluginSettings {
-	mySetting: string;
+export interface GIFsPluginSettings {
+	userId: string;
 }
 
-export const DEFAULT_SETTINGS: MyPluginSettings = {
-	mySetting: 'default',
+export const DEFAULT_SETTINGS: GIFsPluginSettings = {
+	userId: nanoid(26),
 };
 
-export class SampleSettingTab extends PluginSettingTab {
-	plugin: MyPlugin;
+export class GIFSPluginSettingTab extends PluginSettingTab {
+	plugin: GIFsPlugin;
 
-	constructor(app: App, plugin: MyPlugin) {
+	constructor(app: App, plugin: GIFsPlugin) {
 		super(app, plugin);
 		this.plugin = plugin;
+	}
+
+	getSettingDefinitions(): SettingDefinitionItem[] {
+		return [
+			{
+				name: 'User ID',
+				control: {
+					type: 'text',
+					key: 'userid',
+					disabled: true,
+				},
+			},
+		];
 	}
 
 	display(): void {
@@ -23,16 +37,11 @@ export class SampleSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		new Setting(containerEl)
-			.setName('Settings #1')
-			.setDesc("It's a secret")
-			.addText((text) =>
-				text
-					.setPlaceholder('Enter your secret')
-					.setValue(this.plugin.settings.mySetting)
-					.onChange(async (value) => {
-						this.plugin.settings.mySetting = value;
-						await this.plugin.saveSettings();
-					}),
-			);
+			.setName('User ID')
+			.setDesc('Your custom maintained user ID')
+			.setDisabled(true)
+			.addText((text) => {
+				text.setValue(this.plugin.settings.userId).setDisabled(true);
+			});
 	}
 }

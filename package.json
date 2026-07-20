@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-sample-plugin",
+	"name": "gifs.md",
 	"version": "1.0.0",
-	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"description": "An extension for obsidian to add GIFs in your notes and make it more exciting.",
 	"main": "main.js",
 	"type": "module",
 	"scripts": {
@@ -23,5 +23,9 @@
 		"obsidian": "latest",
 		"typescript": "^5.8.3",
 		"typescript-eslint": "^8.59.1"
+	},
+	"packageManager": "pnpm@11.15.1+sha512.81350b07e53c9538a02f1f2303b4290fa2d7be04e56e2a970c4cc4b417dc761de196edabd49d55c7dc9580db81007c44143e4e3d7e462b3000d23c255122d065",
+	"dependencies": {
+		"nanoid": "^6.0.0"
 	}
 }

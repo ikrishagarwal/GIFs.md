@@ -1,11 +1,11 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
+	"id": "gifs.md",
+	"name": "GIFs.md",
 	"version": "1.0.0",
-	"minAppVersion": "1.0.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
+	"minAppVersion": "1.2.3",
+	"description": "An extension for obsidian to add GIFs in your notes and make it more exciting.",
+	"author": "Krish",
+	"authorUrl": "https://ikrish.dev",
 	"fundingUrl": "https://obsidian.md/pricing",
 	"isDesktopOnly": false
 }
