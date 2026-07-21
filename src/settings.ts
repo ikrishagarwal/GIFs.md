@@ -101,6 +101,7 @@ export class GIFSPluginSettingTab extends PluginSettingTab {
 					if (!reg.test(value)) {
 						value = this.plugin.settings.locale;
 					}
+					this.plugin.settings.locale = value;
 					await this.plugin.saveSettings();
 				});
 			});

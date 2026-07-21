@@ -15,6 +15,7 @@ Open the GIF picker in any editor using one of these methods:
 
 - **Command palette** — Open the Command Palette (`Cmd/Ctrl + P`) and run `GIFs.md: Insert GIF`.
 - **Right-click menu** — Right-click anywhere in an active note and select **Insert GIF**.
+- **Ribbon Icon** — Click on the film icon the ribbon to activate the GIF search menu.
 - **Custom hotkey** — Assign a shortcut under **Settings -> Hotkeys** by searching for `GIFs.md`.
 
 The modal displays trending categories by default. Click a category to view matching GIFs, or type a query into the search bar. Click any GIF to instantly insert it into your note.

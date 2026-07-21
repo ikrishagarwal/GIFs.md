@@ -1,4 +1,4 @@
-import { Editor, Plugin } from 'obsidian';
+import { Editor, MarkdownView, Notice, Plugin } from 'obsidian';
 import { GIFModal } from './gifModal';
 import { DEFAULT_SETTINGS, GIFsPluginSettings, GIFSPluginSettingTab } from './settings';
 import { FileType } from './klipy';
@@ -15,6 +15,16 @@ export default class GIFsPlugin extends Plugin {
 			editorCallback: (editor: Editor) => {
 				new GIFModal(this.app, this, (file: FileType) => this.onGIFSelection(editor, file)).open();
 			},
+		});
+
+		this.addRibbonIcon('film', 'Insert GIF', () => {
+			const activeView = this.app.workspace.getActiveViewOfType(MarkdownView);
+			if (activeView) {
+				const editor = activeView.editor;
+				new GIFModal(this.app, this, (file: FileType) => this.onGIFSelection(editor, file)).open();
+			} else {
+				new Notice('Please open a note first to insert a GIF.');
+			}
 		});
 
 		this.registerEvent(

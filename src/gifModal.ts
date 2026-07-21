@@ -83,7 +83,7 @@ export class GIFModal extends Modal {
 		});
 
 		try {
-			const response = await Klipy.categories('en_US');
+			const response = await Klipy.categories(this.klipyParameters.locale);
 			for (const cat of response.data.categories) {
 				const card = this.categoriesContainer.createDiv({ cls: 'category-item' });
 				card.setAttr('style', `background-image: url(${cat.preview_url})`);
