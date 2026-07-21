@@ -2,6 +2,8 @@
 
 Browse, search, and insert GIFs directly into your Obsidian notes.
 
+![demo video](/assets/demo.mp4)
+
 ## Features
 
 - Search for GIFs by keyword using the Klipy API.
