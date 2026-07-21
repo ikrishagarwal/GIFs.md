@@ -2,7 +2,7 @@
 
 Browse, search, and insert GIFs directly into your Obsidian notes.
 
-![demo video](/assets/demo.mp4)
+![demo video](/assets/output.mp4)
 
 ## Features
 
