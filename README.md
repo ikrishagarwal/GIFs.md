@@ -3,7 +3,7 @@
 Browse, search, and insert GIFs directly into your Obsidian notes.
 
 <p align="center">
-  <video src="assets/demo.mp4" controls></video>
+  <img src="assets/demo.gif" alt="Demo">
 </p>
 
 ## Features
