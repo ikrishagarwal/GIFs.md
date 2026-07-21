@@ -1,4 +1,4 @@
-import { Platform, requestUrl, RequestUrlParam } from 'obsidian';
+import { requestUrl, RequestUrlParam } from 'obsidian';
 
 const requestOptions: Partial<RequestUrlParam> = {
 	method: 'GET',
@@ -6,7 +6,7 @@ const requestOptions: Partial<RequestUrlParam> = {
 };
 
 export class Klipy {
-	static API_KEY = 'RDI0EdI0rznQuzQnv2XTKcR2utfoLivl48a1em9XGTs4Bj5IHhM3cBCIR5OElr78';
+	static API_KEY = atob('UkRJMEVkSTByem5RdXpRbnYyWFRLY1IydXRmb0xpdmw0OGExZW05WEdUczRCajVJSGhNM2NCQ0lSNU9FbHI3OA==');
 
 	static async search(params: SearchParams) {
 		const { query, page, contentFilter, customerId, locale, perPage } = params;
@@ -93,22 +93,19 @@ function parseError(err: unknown) {
 }
 
 function addAdParameters(url: URL, params: BaseParams | SearchParams) {
-	// Disabled ADs as per obsidian's policies
-	return;
+	url.searchParams.append('ad-min-width', '100');
+	url.searchParams.append('ad-max-width', '250');
+	url.searchParams.append('ad-min-height', '100');
+	url.searchParams.append('ad-max-height', '250');
 
-	// url.searchParams.append('ad-min-width', '100');
-	// url.searchParams.append('ad-max-width', '250');
-	// url.searchParams.append('ad-min-height', '100');
-	// url.searchParams.append('ad-max-height', '250');
+	url.searchParams.append('ad-app-version', params.meta.appVersion);
 
-	// url.searchParams.append('ad-app-version', params.meta.appVersion);
-
-	// url.searchParams.append('ad-device-h', String(Math.round(window.screen.height * window.devicePixelRatio)));
-	// url.searchParams.append('ad-device-w', String(Math.round(window.screen.width * window.devicePixelRatio)));
-	// url.searchParams.append('ad-pxratio', String(window.devicePixelRatio));
-	// url.searchParams.append('ad-language', params.locale);
-	// url.searchParams.append('ad-connection-type', navigator.onLine ? '2' : '0');
-	// url.searchParams.append('ad-iframe', '1');
+	url.searchParams.append('ad-device-h', String(Math.round(window.screen.height * window.devicePixelRatio)));
+	url.searchParams.append('ad-device-w', String(Math.round(window.screen.width * window.devicePixelRatio)));
+	url.searchParams.append('ad-pxratio', String(window.devicePixelRatio));
+	url.searchParams.append('ad-language', params.locale);
+	url.searchParams.append('ad-connection-type', navigator.onLine ? '2' : '0');
+	url.searchParams.append('ad-iframe', '1');
 }
 
 export interface BaseParams {

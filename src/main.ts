@@ -12,8 +12,6 @@ export default class GIFsPlugin extends Plugin {
 		this.addCommand({
 			id: 'insert-gif-modal',
 			name: 'Insert GIF',
-			// TODO: add a settings options to edit this
-			hotkeys: [{ modifiers: ['Ctrl', 'Shift'], key: 'g' }],
 			editorCallback: (editor: Editor) => {
 				new GIFModal(this.app, this, (file: FileType) => this.onGIFSelection(editor, file)).open();
 			},

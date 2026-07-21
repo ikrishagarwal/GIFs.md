@@ -8,8 +8,12 @@ export class GIFModal extends Modal {
 	backBtn: HTMLButtonElement;
 	gifContainer: HTMLDivElement;
 	categoriesContainer: HTMLDivElement;
+	paginationContainer: HTMLDivElement;
 	onSubmit: (file: FileType) => void;
 	klipyParameters: BaseParams;
+	currentPage = 1;
+	currentQuery = '';
+	hasNextPage = false;
 
 	constructor(app: App, plugin: GIFsPlugin, onSubmit: (file: FileType) => void) {
 		super(app);
@@ -23,7 +27,6 @@ export class GIFModal extends Modal {
 			customerId: this.plugin.settings.userId,
 			locale: this.plugin.settings.locale,
 			perPage: this.plugin.settings.perPage,
-			// width: this.modalEl.innerWidth,
 			meta: {
 				appVersion: plugin.manifest.version,
 			},
@@ -55,8 +58,13 @@ export class GIFModal extends Modal {
 		const contentWrapper = modalEl.createDiv({ cls: 'content-wrapper' });
 		this.categoriesContainer = contentWrapper.createDiv({ cls: 'categories-container' });
 		this.gifContainer = contentWrapper.createDiv({ cls: 'gif-container' });
+		this.paginationContainer = contentWrapper.createDiv({ cls: 'pagination-container hidden' });
 
 		void this.showCategories();
+	}
+
+	onOpen() {
+		this.searchInput.inputEl.focus();
 	}
 
 	async showCategories() {
@@ -64,6 +72,7 @@ export class GIFModal extends Modal {
 		this.gifContainer.addClass('hidden');
 		this.categoriesContainer.empty();
 		this.categoriesContainer.removeClass('hidden');
+		this.paginationContainer.addClass('hidden');
 
 		const trendingCard = this.categoriesContainer.createDiv({ cls: 'category-item trending-card' });
 		trendingCard.createDiv({ cls: 'category-label', text: 'Trending' });
@@ -91,28 +100,52 @@ export class GIFModal extends Modal {
 	}
 
 	async showTrending() {
-		this.gifContainer.empty();
-		try {
-			const response = await Klipy.trending(this.klipyParameters);
-			this.categoriesContainer.addClass('hidden');
-			this.gifContainer.removeClass('hidden');
-			this.displayGIFs(response.data.data);
-		} catch (err) {
-			console.error('ERROR: while fetching trending GIF', err);
-		}
+		this.currentQuery = '';
+		await this.fetchAndDisplayGIFs(1);
 	}
 
 	async searchGIFs(query: string) {
+		this.currentQuery = query;
+		await this.fetchAndDisplayGIFs(1);
+	}
+
+	async fetchAndDisplayGIFs(page: number) {
 		this.gifContainer.empty();
+		this.categoriesContainer.addClass('hidden');
+		this.gifContainer.removeClass('hidden');
 
 		try {
-			const response = await Klipy.search({ ...this.klipyParameters, query });
-			this.categoriesContainer.addClass('hidden');
-			this.gifContainer.removeClass('hidden');
+			const params = { ...this.klipyParameters, page };
+			const response = this.currentQuery
+				? await Klipy.search({ ...params, query: this.currentQuery })
+				: await Klipy.trending(params);
+
+			this.currentPage = response.data.current_page;
+			this.hasNextPage = response.data.has_next;
 			this.displayGIFs(response.data.data);
+			this.updatePagination();
 		} catch (err) {
-			console.error('ERROR: while searching GIF', err);
+			console.error('ERROR: while fetching GIFs', err);
 		}
+	}
+
+	async goToPage(page: number) {
+		await this.fetchAndDisplayGIFs(page);
+	}
+
+	updatePagination() {
+		this.paginationContainer.empty();
+		this.paginationContainer.removeClass('hidden');
+
+		const prevBtn = this.paginationContainer.createEl('button', { cls: 'pagination-btn', text: 'Previous' });
+		prevBtn.disabled = this.currentPage <= 1;
+		prevBtn.addEventListener('click', () => void this.goToPage(this.currentPage - 1));
+
+		this.paginationContainer.createDiv({ cls: 'pagination-indicator', text: String(this.currentPage) });
+
+		const nextBtn = this.paginationContainer.createEl('button', { cls: 'pagination-btn', text: 'Next' });
+		nextBtn.disabled = !this.hasNextPage;
+		nextBtn.addEventListener('click', () => void this.goToPage(this.currentPage + 1));
 	}
 
 	displayGIFs(data: ApiResponse['data']['data']) {

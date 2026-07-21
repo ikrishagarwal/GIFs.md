@@ -97,3 +97,41 @@
 	border-radius: 4px;
 	scale: 0.98;
 }
+
+.pagination-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	margin-top: 12px;
+	padding: 8px 0;
+}
+
+.pagination-btn {
+	background: var(--interactive-normal);
+	border: none;
+	padding: 4px 12px;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 0.85em;
+}
+
+.pagination-btn:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+.pagination-btn:hover:not(:disabled) {
+	background: var(--interactive-hover);
+}
+
+.pagination-indicator {
+	font-size: 0.9em;
+	font-weight: 600;
+	min-width: 24px;
+	text-align: center;
+}
+
+.pagination-container.hidden {
+	display: none;
+}
