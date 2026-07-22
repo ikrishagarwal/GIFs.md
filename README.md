@@ -95,11 +95,11 @@ The plugin has a built-in setting to update on demand.
 
 ## Settings
 
-| Setting  | Description                                                                                                                  |
-| -------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| Per page | Number of GIF results shown per search (8 to 24).                                                                            |
-| Locale   | Language code for API search requests (e.g., `en_US`, `fr_FR`).                                                              |
-| User ID  | An auto-generated unique ID used to personalize search results, store favorite GIFs, and filter hidden GIFs across sessions. |
+| Setting  | Description                                                                                               |
+| -------- | --------------------------------------------------------------------------------------------------------- |
+| Per page | Number of GIF results shown per search (8 to 50).                                                         |
+| Locale   | Language code for API search requests (e.g., `en_US`, `fr_FR`).                                           |
+| User ID  | Auto-generated unique ID used to personalize search results, store favorite GIFs, and filter hidden GIFs. |
 
 ## Network & Privacy Disclosure
 

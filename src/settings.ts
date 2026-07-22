@@ -1,4 +1,4 @@
-import { App, PluginSettingTab, Setting, SettingDefinitionItem } from 'obsidian';
+import { App, Notice, PluginSettingTab, Setting, SettingDefinitionItem } from 'obsidian';
 import { nanoid } from 'nanoid';
 import GIFsPlugin from './main';
 import { update } from './update';
@@ -113,11 +113,14 @@ export class GIFSPluginSettingTab extends PluginSettingTab {
 					let num = parseInt(value, 10);
 
 					if (isNaN(num)) {
-						num = 8;
+						new Notice('The value should be a number');
+						return;
 					} else if (num < 8) {
-						num = 8;
-					} else if (num > 24) {
-						num = 24;
+						new Notice('The value should be more than 8');
+						return;
+					} else if (num > 50) {
+						new Notice('The value should be lesser than 50');
+						return;
 					}
 
 					this.plugin.settings.perPage = num;
