@@ -1,6 +1,7 @@
 import { App, PluginSettingTab, Setting, SettingDefinitionItem } from 'obsidian';
 import { nanoid } from 'nanoid';
 import GIFsPlugin from './main';
+import { update } from './update';
 
 export interface GIFsPluginSettings {
 	userId: string;
@@ -26,24 +27,59 @@ export class GIFSPluginSettingTab extends PluginSettingTab {
 		return [
 			{
 				name: 'User ID',
+				desc: 'Your custom maintained user ID',
 				control: {
 					type: 'text',
-					key: 'userid',
+					key: 'userId',
 					disabled: true,
+					defaultValue: this.plugin.settings.userId,
 				},
 			},
 			{
 				name: 'Per page',
+				desc: 'Number of items per page',
 				control: {
 					type: 'number',
 					key: 'perPage',
+					min: 8,
+					max: 24,
+					validate: (num) => {
+						if (num < 8) {
+							return 'Must be greater than 8';
+						} else if (num > 24) {
+							return 'Must be lesser than 50';
+						}
+						return;
+					},
+					defaultValue: this.plugin.settings.perPage,
 				},
 			},
 			{
 				name: 'Locale',
+				desc: 'Must be in format `xx_YY` where xx is language and YY is country code eg. en_US',
 				control: {
 					type: 'text',
 					key: 'locale',
+					validate: (value) => {
+						const reg = /^[a-z]{2}_[A-Z]{2}$/;
+						if (!reg.test(value)) return "Value doesn't follow the format of xx_YY";
+						return;
+					},
+					defaultValue: this.plugin.settings.locale,
+				},
+			},
+			{
+				name: 'Update plugin',
+				desc: 'Fetches the latest version of the package and updates it for you.',
+				render: (setting) => {
+					setting.addButton((button) => {
+						button
+							.setIcon('refresh-ccw')
+							.setCta()
+							.onClick(async () => {
+								await update(this.plugin);
+							});
+					});
 				},
 			},
 		];
@@ -104,6 +140,18 @@ export class GIFSPluginSettingTab extends PluginSettingTab {
 					this.plugin.settings.locale = value;
 					await this.plugin.saveSettings();
 				});
+			});
+
+		new Setting(containerEl)
+			.setName('Update plugin')
+			.setDesc('Fetches the latest version of the package and updates it for you.')
+			.addButton((button) => {
+				button
+					.setIcon('refresh-ccw')
+					.setCta()
+					.onClick(async () => {
+						await update(this.plugin);
+					});
 			});
 	}
 }

@@ -1,0 +1,3 @@
+pnpm run build
+pnpm run lint
+node version-bump.mjs && git add manifest.json versions.json

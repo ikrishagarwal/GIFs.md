@@ -1,7 +1,6 @@
 {
 	"id": "gifs.md",
 	"name": "GIFs.md",
-	"version": "1.0.0",
 	"minAppVersion": "1.2.3",
 	"description": "An extension for obsidian to add GIFs in your notes and make it more exciting.",
 	"author": "Krish",
