@@ -39,6 +39,12 @@ jobs:
                       main.js
                       ${{ steps.styles.outputs.exists == 'true' && 'styles.css' || '' }}
 
+            - name: Create release archive
+              run: |
+                  files="main.js manifest.json"
+                  if [ -f styles.css ]; then files="$files styles.css"; fi
+                  zip gifs-md-plugin.zip $files
+
             - name: Create release
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -48,4 +54,5 @@ jobs:
                   gh release create "$tag" \
                     --title="$tag" \
                     --draft \
-                    main.js manifest.json ${{ steps.styles.outputs.exists == 'true' && 'styles.css' || '' }}
+                    main.js manifest.json ${{ steps.styles.outputs.exists == 'true' && 'styles.css' || '' }} \
+                    gifs-md-plugin.zip

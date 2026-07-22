@@ -28,7 +28,7 @@ The modal displays trending categories by default. Click a category to view matc
 
 ### Manual installation
 
-You can install the plugin automatically via terminal scripts or by downloading the release files manually. **Run these commands from the root directory of your Obsidian vault.**
+You can install the plugin automatically via terminal scripts or by downloading the release files manually. Run these commands from the **root directory of your Obsidian vault.**
 
 #### Option 1: macOS / Linux (Bash)
 
@@ -39,6 +39,10 @@ bash <(curl -sL https://raw.githubusercontent.com/ikrishagarwal/GIFs.md/main/ins
 
 ```
 
+1. Restart obsidian
+2. Open **Settings** and go to **Community Plugins**
+3. Search for **GIFs.md** and enable it.
+
 #### Option 2: Windows (PowerShell)
 
 Download and run the installation script directly via PowerShell:
@@ -48,11 +52,17 @@ irm https://raw.githubusercontent.com/ikrishagarwal/GIFs.md/main/install.ps1 | i
 
 ```
 
+1. Restart obsidian
+2. Open **Settings** and go to **Community Plugins**
+3. Search for **GIFs.md** and enable it.
+
 #### Option 3: File download
 
-1. Download `main.js`, `manifest.json`, and `styles.css` from the [latest GitHub Release](https://www.google.com/search?q=https://github.com/ikrishagarwal/GIFs.md/releases/latest).
-2. Create a folder named `gifs-md` inside your vault's plugin directory (`.obsidian/plugins/gifs-md/`).
+1. Download `gifs-md-plugin.zip` from the [latest GitHub Release](https://github.com/ikrishagarwal/GIFs.md/releases/latest).
+2. Unzip it inside your vault's plugin directory (`.obsidian/plugins/gifs-md/`).
 3. Move the downloaded files into that folder and reload Obsidian.
+4. Open **Settings** and go to **Community Plugins**.
+5. Search for **GIFs.md** and enable it.
 
 ## Settings
 
