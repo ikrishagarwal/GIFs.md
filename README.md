@@ -1,6 +1,16 @@
-# GIFs.md
+<h1 align='center'>
+	GIFs.md
+</h1>
+<p align='center'>
+	Introduce GIFs to your notes in Obsidian with this plugin now!
+</p>
+<p align='center'>
+	<img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/ikrishagarwal/gifs.md/total" />
+	<img alt="GitHub License" src="https://img.shields.io/github/license/ikrishagarwal/gifs.md">
+	<img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/ikrishagarwal/gifs.md">
+</p>
 
-Browse, search, and insert GIFs directly into your Obsidian notes.
+<br />
 
 <p align="center">
   <img src="assets/demo.gif" alt="Demo">
