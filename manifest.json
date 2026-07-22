@@ -6,5 +6,6 @@
 	"author": "Krish",
 	"authorUrl": "https://ikrish.dev",
 	"fundingUrl": "https://github.com/sponsors/ikrishagarwal/",
-	"isDesktopOnly": false
+	"isDesktopOnly": false,
+	"version": "1.0.0"
 }
