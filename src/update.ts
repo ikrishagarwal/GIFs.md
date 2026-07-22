@@ -21,7 +21,7 @@ export async function update(plugin: Plugin) {
 
 		const files = ['main.js', 'manifest.json', 'styles.css'];
 		const adapter = plugin.app.vault.adapter;
-		const pluginDir = normalizePath(`.obsidian/plugins/${plugin.manifest.id}/test`);
+		const pluginDir = normalizePath(`.obsidian/plugins/${plugin.manifest.id}`);
 
 		await adapter.mkdir(normalizePath(pluginDir));
 
