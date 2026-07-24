@@ -9,6 +9,9 @@
 	<img alt="GitHub License" src="https://img.shields.io/github/license/ikrishagarwal/gifs.md">
 	<img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/ikrishagarwal/gifs.md">
 </p>
+<p align='center'>
+	<a href="https://www.producthunt.com/products/gifs-md?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-gifs-md" target="_blank" rel="noopener noreferrer"><img alt="GIFs.md - Obsidian Plugin to add GIFs in your notes and liveliness  | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1203558&amp;theme=dark&amp;t=1784884064274"></a>
+</p>
 
 <br />
 
