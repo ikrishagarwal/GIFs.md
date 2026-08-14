@@ -21,8 +21,6 @@ export class Klipy {
 			locale && url.searchParams.append('locale', locale);
 			contentFilter && url.searchParams.append('content_filter', contentFilter);
 
-			addAdParameters(url, params);
-
 			const response = await requestUrl({
 				...requestOptions,
 				url: url.toString(),
@@ -46,8 +44,6 @@ export class Klipy {
 			perPage && url.searchParams.append('per_page', String(perPage));
 			locale && url.searchParams.append('locale', locale);
 			contentFilter && url.searchParams.append('content_filter', contentFilter);
-
-			addAdParameters(url, params);
 
 			const response = await requestUrl({
 				...requestOptions,
@@ -90,22 +86,6 @@ function parseError(err: unknown) {
 		};
 	}
 	return String(err);
-}
-
-function addAdParameters(url: URL, params: BaseParams | SearchParams) {
-	url.searchParams.append('ad-min-width', '100');
-	url.searchParams.append('ad-max-width', '250');
-	url.searchParams.append('ad-min-height', '100');
-	url.searchParams.append('ad-max-height', '250');
-
-	url.searchParams.append('ad-app-version', params.meta.appVersion);
-
-	url.searchParams.append('ad-device-h', String(Math.round(window.screen.height * window.devicePixelRatio)));
-	url.searchParams.append('ad-device-w', String(Math.round(window.screen.width * window.devicePixelRatio)));
-	url.searchParams.append('ad-pxratio', String(window.devicePixelRatio));
-	url.searchParams.append('ad-language', params.locale);
-	url.searchParams.append('ad-connection-type', navigator.onLine ? '2' : '0');
-	url.searchParams.append('ad-iframe', '1');
 }
 
 export interface BaseParams {
