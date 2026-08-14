@@ -2,7 +2,7 @@
 	"id": "gifs-md",
 	"name": "GIFs.md",
 	"minAppVersion": "1.2.3",
-	"description": "An extension for obsidian to add GIFs in your notes and make it more exciting.",
+	"description": "Add live GIFs in your notes via CDNs without downloading them and make it more exciting.",
 	"author": "Krish",
 	"authorUrl": "https://ikrish.dev",
 	"fundingUrl": "https://github.com/sponsors/ikrishagarwal/",
