@@ -1,7 +1,6 @@
 import { App, Notice, PluginSettingTab, Setting, SettingDefinitionItem } from 'obsidian';
 import { nanoid } from 'nanoid';
 import GIFsPlugin from './main';
-import { update } from './update';
 
 export interface GIFsPluginSettings {
 	userId: string;
@@ -68,20 +67,6 @@ export class GIFSPluginSettingTab extends PluginSettingTab {
 					defaultValue: this.plugin.settings.locale,
 				},
 			},
-			{
-				name: 'Update plugin',
-				desc: 'Fetches the latest version of the package and updates it for you.',
-				render: (setting) => {
-					setting.addButton((button) => {
-						button
-							.setIcon('refresh-ccw')
-							.setCta()
-							.onClick(async () => {
-								await update(this.plugin);
-							});
-					});
-				},
-			},
 		];
 	}
 
@@ -143,18 +128,6 @@ export class GIFSPluginSettingTab extends PluginSettingTab {
 					this.plugin.settings.locale = value;
 					await this.plugin.saveSettings();
 				});
-			});
-
-		new Setting(containerEl)
-			.setName('Update plugin')
-			.setDesc('Fetches the latest version of the package and updates it for you.')
-			.addButton((button) => {
-				button
-					.setIcon('refresh-ccw')
-					.setCta()
-					.onClick(async () => {
-						await update(this.plugin);
-					});
 			});
 	}
 }

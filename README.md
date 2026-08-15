@@ -5,9 +5,10 @@
 	Introduce GIFs to your notes in Obsidian with this plugin now!
 </p>
 <p align='center'>
-	<img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/ikrishagarwal/gifs.md/total" />
-	<img alt="GitHub License" src="https://img.shields.io/github/license/ikrishagarwal/gifs.md">
-	<img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/ikrishagarwal/gifs.md">
+	<img alt="Stars" src="https://img.shields.io/github/stars/ikrishagarwal/gifs.md?style=for-the-badge&color=ffd700">
+	<img alt="GitHub License" src="https://img.shields.io/github/license/ikrishagarwal/gifs.md?style=for-the-badge&color=blue">
+	<img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/ikrishagarwal/gifs.md?style=for-the-badge&color=success">
+	<img alt="Obsidian Downloads" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fobsidianmd%2Fobsidian-releases%2Fmaster%2Fcommunity-plugin-stats.json&query=%24.%5B%22gifs-md%22%5D.downloads&label=downloads&logo=obsidian&color=7c3aed&style=for-the-badge">
 </p>
 <p align='center'>
 	<a href="https://www.producthunt.com/products/gifs-md?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-gifs-md" target="_blank" rel="noopener noreferrer"><img alt="GIFs.md - Obsidian Plugin to add GIFs in your notes and liveliness  | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1203558&amp;theme=dark&amp;t=1784884064274"></a>
@@ -38,6 +39,14 @@ Open the GIF picker in any editor using one of these methods:
 The modal displays trending categories by default. Click a category to view matching GIFs, or type a query into the search bar. Click any GIF to instantly insert it into your note.
 
 ## Installation
+
+## Community Plugin (Recommended)
+
+1. Open **Settings** and go to **Community Plugins**.
+2. Search for **GIFs.md** and click **Install**.
+3. Restart obsidian and enable the plugin.
+
+> Or go to [GIFs.md](https://community.obsidian.md/plugins/gifs-md) and click **Install**.
 
 ### Using [BRAT](https://github.com/TfTHacker/obsidian42-brat)
 
@@ -83,28 +92,6 @@ irm https://raw.githubusercontent.com/ikrishagarwal/GIFs.md/main/install.ps1 | i
 3. Move the downloaded files into that folder and reload Obsidian.
 4. Open **Settings** and go to **Community Plugins**.
 5. Search for **GIFs.md** and enable it.
-
-## Update
-
-The plugin has a built-in setting to update on demand.
-
-### From Plugin Settings
-
-1. Go to plugin settings.
-2. Click on the update button.
-3. Reload obsidian.
-
-### From BRAT settings
-
-1. Go to beta plugin list under BRAT settings
-2. Click on the update button
-3. Restart
-
-### Manual Method
-
-1. Download `gifs-md-plugin.zip` from the [latest GitHub Release](https://github.com/ikrishagarwal/GIFs.md/releases/latest).
-2. Unzip it inside your vault's plugin directory (`.obsidian/plugins/gifs-md/`).
-3. Move the downloaded files into that folder and reload Obsidian.
 
 ## Settings
 
