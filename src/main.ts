@@ -44,7 +44,7 @@ export default class GIFsPlugin extends Plugin {
 	}
 
 	onGIFSelection(editor: Editor, file: FileType) {
-		const gif = `![](${file.hd.gif.url})\n`;
+		const gif = `![](${file[this.settings.gifQuality][this.settings.gifType].url})\n`;
 		editor.replaceRange(gif, editor.getCursor());
 		editor.setCursor(editor.getCursor().ch + gif.length);
 	}

@@ -2,16 +2,23 @@ import { App, Modal, Notice, PluginSettingTab, Setting, SettingDefinitionItem } 
 import { nanoid } from 'nanoid';
 import GIFsPlugin from './main';
 
+export type GifQuality = 'hd' | 'md' | 'sm' | 'xs';
+export type GifType = 'gif' | 'webp';
+
 export interface GIFsPluginSettings {
 	userId: string;
 	perPage: number;
 	locale: string;
+	gifQuality: GifQuality;
+	gifType: GifType;
 }
 
 export const DEFAULT_SETTINGS: GIFsPluginSettings = {
 	userId: nanoid(26),
 	perPage: 24,
 	locale: 'en_US',
+	gifQuality: 'hd',
+	gifType: 'gif',
 };
 
 export class GIFSPluginSettingTab extends PluginSettingTab {
@@ -53,28 +60,48 @@ export class GIFSPluginSettingTab extends PluginSettingTab {
 					defaultValue: this.plugin.settings.perPage,
 				},
 			},
-{
-			name: 'Locale',
-			desc: 'Must be in format `xx_YY` where xx is language and YY is country code eg. en_US',
-			control: {
-				type: 'text',
-				key: 'locale',
-				validate: (value) => {
-					const reg = /^[a-z]{2}_[A-Z]{2}$/;
-					if (!reg.test(value)) return "Value doesn't follow the format of xx_YY";
-					return;
+			{
+				name: 'Locale',
+				desc: 'Must be in format `xx_YY` where xx is language and YY is country code eg. en_US',
+				control: {
+					type: 'text',
+					key: 'locale',
+					validate: (value) => {
+						const reg = /^[a-z]{2}_[A-Z]{2}$/;
+						if (!reg.test(value)) return "Value doesn't follow the format of xx_YY";
+						return;
+					},
+					defaultValue: this.plugin.settings.locale,
 				},
-				defaultValue: this.plugin.settings.locale,
 			},
-		},
-		{
-			name: 'Reset favorites',
-			desc: 'Permanently remove all your saved favorite gifs from this device.',
-			render: (setting) => {
-				this.addResetButton(setting);
+			{
+				name: 'GIF quality',
+				desc: 'Quality of the inserted GIF',
+				control: {
+					type: 'dropdown',
+					key: 'gifQuality',
+					options: { hd: 'HD', md: 'Medium', sm: 'Small', xs: 'Extra small' },
+					defaultValue: 'hd',
+				},
 			},
-		},
-	];
+			{
+				name: 'GIF type',
+				desc: 'Type of the inserted GIF',
+				control: {
+					type: 'dropdown',
+					key: 'gifType',
+					options: { gif: 'GIF', webp: 'WebP' },
+					defaultValue: 'gif',
+				},
+			},
+			{
+				name: 'Reset favorites',
+				desc: 'Permanently remove all your saved favorite gifs from this device.',
+				render: (setting) => {
+					this.addResetButton(setting);
+				},
+			},
+		];
 	}
 
 	display(): void {
@@ -137,8 +164,36 @@ export class GIFSPluginSettingTab extends PluginSettingTab {
 				});
 			});
 
+		new Setting(containerEl)
+			.setName('GIF quality')
+			.setDesc('Quality of the inserted GIF')
+			.addDropdown((dropdown) => {
+				dropdown
+					.addOptions({ hd: 'HD', md: 'Medium', sm: 'Small', xs: 'Extra small' })
+					.setValue(this.plugin.settings.gifQuality)
+					.onChange(async (value) => {
+						this.plugin.settings.gifQuality = value as GifQuality;
+						await this.plugin.saveSettings();
+					});
+			});
+
+		new Setting(containerEl)
+			.setName('GIF type')
+			.setDesc('Type of the inserted GIF')
+			.addDropdown((dropdown) => {
+				dropdown
+					.addOptions({ gif: 'GIF', webp: 'WebP' })
+					.setValue(this.plugin.settings.gifType)
+					.onChange(async (value) => {
+						this.plugin.settings.gifType = value as GifType;
+						await this.plugin.saveSettings();
+					});
+			});
+
 		this.addResetButton(
-			new Setting(containerEl).setName('Reset favorites').setDesc('Permanently remove all your saved favorite gifs from this device.'),
+			new Setting(containerEl)
+				.setName('Reset favorites')
+				.setDesc('Permanently remove all your saved favorite gifs from this device.'),
 		);
 	}
 
