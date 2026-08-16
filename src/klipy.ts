@@ -57,6 +57,27 @@ export class Klipy {
 		}
 	}
 
+	static async items(params: ItemsParams) {
+		const { slugs, customerId, locale } = params;
+		try {
+			const url = new URL(`https://api.klipy.com/api/v1/${Klipy.API_KEY}/gifs/items`);
+
+			url.searchParams.append('slugs', slugs.join(','));
+			url.searchParams.append('customer_id', customerId);
+			locale && url.searchParams.append('locale', locale);
+
+			const response = await requestUrl({
+				...requestOptions,
+				url: url.toString(),
+			});
+
+			return response.json as ItemsResponse;
+		} catch (err) {
+			console.error('Klipy items API error:', parseError(err));
+			throw err;
+		}
+	}
+
 	static async categories(locale: string) {
 		try {
 			const url = new URL(`https://api.klipy.com/api/v1/${Klipy.API_KEY}/gifs/categories`);
@@ -74,6 +95,8 @@ export class Klipy {
 		}
 	}
 }
+
+export const normalizeSlug = (slug: string): string => slug.split('--')[0] ?? slug;
 
 function parseError(err: unknown) {
 	const reqErr = err as Record<string, unknown>;
@@ -103,23 +126,37 @@ export interface SearchParams extends BaseParams {
 	query: string;
 }
 
+export interface ItemsParams extends BaseParams {
+	slugs: string[];
+}
+
+export interface GifItem {
+	id: number;
+	slug: string;
+	title: string;
+	file: FileType;
+	content?: string;
+	height?: number;
+	width?: number;
+	type: string;
+	blur_preview: string;
+}
+
 export interface ApiResponse {
 	result: boolean;
 	data: {
-		data: {
-			id: number;
-			slug: string;
-			title: string;
-			file: FileType;
-			content?: string;
-			height?: number;
-			width?: number;
-			type: string;
-			blur_preview: string;
-		}[];
+		data: GifItem[];
 		current_page: number;
 		per_page: number;
 		has_next: boolean;
+	};
+}
+
+export interface ItemsResponse {
+	result: boolean;
+	data: {
+		data: GifItem[];
+		meta: Record<string, unknown>;
 	};
 }
 

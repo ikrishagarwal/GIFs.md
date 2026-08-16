@@ -7,7 +7,7 @@
 
 .search-input {
 	flex: 1;
-	font-size: 1rem !important;
+	font-size: 1rem;
 }
 
 .back-btn {
@@ -62,6 +62,10 @@
 	background: linear-gradient(135deg, #667eea, #764ba2);
 }
 
+.favorites-card {
+	background: linear-gradient(135deg, #f7971e, #ffd200);
+}
+
 .hidden {
 	display: none;
 }
@@ -72,11 +76,15 @@
 	gap: 6px;
 }
 
-.gif-container div {
+.gif-container > div {
 	padding-inline: 2px;
 }
 
-.gif-container img {
+.gif-item {
+	position: relative;
+}
+
+.gif-item img {
 	width: 100%;
 	border-radius: 4px;
 	cursor: pointer;
@@ -86,6 +94,55 @@
 
 .gif-container img:hover {
 	transform: scale(1.02);
+}
+
+.fav-btn {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	z-index: 2;
+	width: 26px;
+	height: 26px;
+	background: rgba(0, 0, 0, 0.5);
+	border: none;
+	border-radius: 6px;
+	padding: 0;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	opacity: 0;
+	transition:
+		opacity 0.15s ease,
+		background 0.15s ease,
+		color 0.15s ease;
+}
+
+.gif-item:hover .fav-btn {
+	opacity: 1;
+}
+
+.fav-btn.favorited {
+	opacity: 1;
+}
+
+.fav-btn svg {
+	width: 16px;
+	height: 16px;
+}
+
+.fav-btn:hover {
+	background: rgba(0, 0, 0, 0.7);
+}
+
+.fav-btn.favorited {
+	color: #ffd700;
+}
+
+.fav-btn.favorited svg {
+	fill: #ffd700;
+	stroke: #ffd700;
 }
 
 .gif-container iframe {

@@ -1,10 +1,11 @@
 import { Editor, MarkdownView, Notice, Plugin } from 'obsidian';
 import { GIFModal } from './gifModal';
 import { DEFAULT_SETTINGS, GIFsPluginSettings, GIFSPluginSettingTab } from './settings';
-import { FileType } from './klipy';
+import { FileType, normalizeSlug } from './klipy';
 
 export default class GIFsPlugin extends Plugin {
 	settings!: GIFsPluginSettings;
+	favoriteSlugs: string[] = [];
 
 	async onload() {
 		await this.loadSettings();
@@ -49,11 +50,38 @@ export default class GIFsPlugin extends Plugin {
 	}
 
 	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, (await this.loadData()) as Partial<GIFsPluginSettings>);
+		const data = (await this.loadData()) as Partial<GIFsPluginSettings> & { favoriteSlugs?: string[] };
+		this.settings = Object.assign({}, DEFAULT_SETTINGS, data);
+		this.favoriteSlugs = Array.isArray(data.favoriteSlugs)
+			? [...new Set(data.favoriteSlugs.map(normalizeSlug))]
+			: [];
 		await this.saveSettings();
 	}
 
 	async saveSettings() {
-		await this.saveData(this.settings);
+		await this.saveData({ ...this.settings, favoriteSlugs: this.favoriteSlugs });
+	}
+
+	isFavorite(slug: string): boolean {
+		return this.favoriteSlugs.includes(normalizeSlug(slug));
+	}
+
+	async toggleFavorite(slug: string): Promise<boolean> {
+		const normalized = normalizeSlug(slug);
+		const index = this.favoriteSlugs.indexOf(normalized);
+		if (index >= 0) {
+			this.favoriteSlugs.splice(index, 1);
+		} else {
+			this.favoriteSlugs.push(normalized);
+		}
+		await this.saveSettings();
+		return index < 0;
+	}
+
+	async resetFavorites(): Promise<number> {
+		const removed = this.favoriteSlugs.length;
+		this.favoriteSlugs = [];
+		await this.saveSettings();
+		return removed;
 	}
 }

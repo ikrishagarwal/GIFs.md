@@ -1,5 +1,5 @@
-import { App, Modal, TextComponent } from 'obsidian';
-import { BaseParams, Klipy, ApiResponse, FileType } from './klipy';
+import { App, Modal, Notice, setIcon, TextComponent } from 'obsidian';
+import { BaseParams, GifItem, Klipy, FileType } from './klipy';
 import GIFsPlugin from './main';
 
 export class GIFModal extends Modal {
@@ -82,6 +82,14 @@ export class GIFModal extends Modal {
 			void this.showTrending();
 		});
 
+		const favoritesCard = this.categoriesContainer.createDiv({ cls: 'category-item favorites-card' });
+		favoritesCard.createDiv({ cls: 'category-label', text: 'Favorites' });
+		favoritesCard.addEventListener('click', () => {
+			this.searchInput.setValue('');
+			this.backBtn.removeClass('hidden');
+			void this.showFavorites();
+		});
+
 		try {
 			const response = await Klipy.categories(this.klipyParameters.locale);
 			for (const cat of response.data.categories) {
@@ -102,6 +110,26 @@ export class GIFModal extends Modal {
 	async showTrending() {
 		this.currentQuery = '';
 		await this.fetchAndDisplayGIFs(1);
+	}
+
+	async showFavorites() {
+		const slugs = this.plugin.favoriteSlugs;
+		if (slugs.length === 0) {
+			new Notice('No favorite gifs yet. Star some gifs to save them.');
+			return;
+		}
+
+		this.gifContainer.empty();
+		this.categoriesContainer.addClass('hidden');
+		this.gifContainer.removeClass('hidden');
+		this.paginationContainer.addClass('hidden');
+
+		try {
+			const response = await Klipy.items({ ...this.klipyParameters, slugs });
+			this.displayGIFs(response.data.data);
+		} catch (err) {
+			console.error('ERROR: while fetching favorite GIFs', err);
+		}
 	}
 
 	async searchGIFs(query: string) {
@@ -148,7 +176,7 @@ export class GIFModal extends Modal {
 		nextBtn.addEventListener('click', () => void this.goToPage(this.currentPage + 1));
 	}
 
-	displayGIFs(data: ApiResponse['data']['data']) {
+	displayGIFs(data: GifItem[]) {
 		this.gifContainer.replaceChildren();
 		const cols = [this.gifContainer.createDiv(), this.gifContainer.createDiv()];
 
@@ -166,7 +194,9 @@ export class GIFModal extends Modal {
 					},
 				});
 			} else {
-				col.createEl('img', {
+				const gifItem = col.createDiv({ cls: 'gif-item' });
+
+				gifItem.createEl('img', {
 					attr: {
 						src: gif.file.xs.gif.url,
 					},
@@ -174,7 +204,27 @@ export class GIFModal extends Modal {
 					this.close();
 					onSubmit(gif.file);
 				});
+
+				this.createFavButton(gifItem, gif.slug);
 			}
 		}
+	}
+
+	createFavButton(container: HTMLDivElement, slug: string) {
+		const favBtn = container.createEl('button', { cls: 'fav-btn' });
+		setIcon(favBtn, 'star');
+		if (this.plugin.isFavorite(slug)) {
+			favBtn.addClass('favorited');
+		}
+
+		favBtn.addEventListener('click', (event) => {
+			event.stopPropagation();
+			void this.toggleFavoriteAndSync(favBtn, slug);
+		});
+	}
+
+	private async toggleFavoriteAndSync(favBtn: HTMLButtonElement, slug: string) {
+		const isFavorite = await this.plugin.toggleFavorite(slug);
+		favBtn.toggleClass('favorited', isFavorite);
 	}
 }

@@ -1,4 +1,4 @@
-import { App, Notice, PluginSettingTab, Setting, SettingDefinitionItem } from 'obsidian';
+import { App, Modal, Notice, PluginSettingTab, Setting, SettingDefinitionItem } from 'obsidian';
 import { nanoid } from 'nanoid';
 import GIFsPlugin from './main';
 
@@ -53,21 +53,28 @@ export class GIFSPluginSettingTab extends PluginSettingTab {
 					defaultValue: this.plugin.settings.perPage,
 				},
 			},
-			{
-				name: 'Locale',
-				desc: 'Must be in format `xx_YY` where xx is language and YY is country code eg. en_US',
-				control: {
-					type: 'text',
-					key: 'locale',
-					validate: (value) => {
-						const reg = /^[a-z]{2}_[A-Z]{2}$/;
-						if (!reg.test(value)) return "Value doesn't follow the format of xx_YY";
-						return;
-					},
-					defaultValue: this.plugin.settings.locale,
+{
+			name: 'Locale',
+			desc: 'Must be in format `xx_YY` where xx is language and YY is country code eg. en_US',
+			control: {
+				type: 'text',
+				key: 'locale',
+				validate: (value) => {
+					const reg = /^[a-z]{2}_[A-Z]{2}$/;
+					if (!reg.test(value)) return "Value doesn't follow the format of xx_YY";
+					return;
 				},
+				defaultValue: this.plugin.settings.locale,
 			},
-		];
+		},
+		{
+			name: 'Reset favorites',
+			desc: 'Permanently remove all your saved favorite gifs from this device.',
+			render: (setting) => {
+				this.addResetButton(setting);
+			},
+		},
+	];
 	}
 
 	display(): void {
@@ -127,6 +134,47 @@ export class GIFSPluginSettingTab extends PluginSettingTab {
 					}
 					this.plugin.settings.locale = value;
 					await this.plugin.saveSettings();
+				});
+			});
+
+		this.addResetButton(
+			new Setting(containerEl).setName('Reset favorites').setDesc('Permanently remove all your saved favorite gifs from this device.'),
+		);
+	}
+
+	addResetButton(setting: Setting) {
+		setting.addButton((button) => {
+			button.setButtonText('Reset');
+			button.setDisabled(this.plugin.favoriteSlugs.length === 0);
+			button.buttonEl.addClass('mod-warning');
+			button.onClick(() => {
+				new ResetFavoritesModal(this.app, () => {
+					void this.resetFavorites();
+				}).open();
+			});
+		});
+	}
+
+	private async resetFavorites() {
+		const removed = await this.plugin.resetFavorites();
+		new Notice(`Removed ${removed} favorite gifs.`);
+	}
+}
+
+class ResetFavoritesModal extends Modal {
+	constructor(app: App, onConfirm: () => void) {
+		super(app);
+		this.setTitle('Reset all favorites');
+
+		new Setting(this.contentEl)
+			.setName('This will permanently remove all your favorite gifs from this device. This cannot be undone.')
+			.addButton((button) => button.setButtonText('Cancel').onClick(() => this.close()))
+			.addButton((button) => {
+				button.setButtonText('Reset');
+				button.buttonEl.addClass('mod-warning');
+				button.onClick(() => {
+					this.close();
+					onConfirm();
 				});
 			});
 	}
